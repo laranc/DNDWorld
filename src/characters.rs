@@ -1,12 +1,17 @@
 use bevy::prelude::*;
 
-use crate::{components::CharacterComponent, resources::SpriteSheet};
+use crate::{
+    components::{CharacterComponent, CharactersComponent, MapComponent, MapsComponent},
+    resources::{CursorPosition, DraggingSprite, SpriteSheet},
+};
 pub struct CharactersPlugin;
 
 impl Plugin for CharactersPlugin {
-    fn build(&self, app: &mut App) -> () {
-        app.add_startup_system_to_stage(StartupStage::Startup, character_setup_system)
-            .add_startup_system_to_stage(StartupStage::PostStartup, spawn_characters_system);
+    fn build(&self, app: &mut App) {
+        app.insert_resource(DraggingSprite::default())
+            .add_startup_system_to_stage(StartupStage::Startup, character_setup_system)
+            .add_startup_system_to_stage(StartupStage::PostStartup, spawn_characters_system)
+            .add_system(characters_system);
     }
 }
 
@@ -31,11 +36,12 @@ fn character_setup_system(
 }
 
 fn spawn_characters_system(mut commands: Commands, texture_atlas: Res<SpriteSheet>) {
+    let mut characters = Vec::new();
     for i in 0..=CHARACTER_NUM - 1 {
         let mut sprite = TextureAtlasSprite::new(i as usize);
         sprite.custom_size = Some(Vec2::splat(CHARACTER_SCALE));
 
-        commands
+        let character = commands
             .spawn_bundle(SpriteSheetBundle {
                 sprite,
                 texture_atlas: texture_atlas.0.clone(),
@@ -50,6 +56,37 @@ fn spawn_characters_system(mut commands: Commands, texture_atlas: Res<SpriteShee
                 ..Default::default()
             })
             .insert(Name::new(format!("Character {}", i + 1)))
-            .insert(CharacterComponent);
+            .insert(CharacterComponent::default())
+            .id();
+        characters.push(character);
+    }
+    commands
+        .spawn()
+        .insert(Name::new("Characters"))
+        .insert(CharactersComponent)
+        .insert_bundle(SpatialBundle {
+            visibility: Visibility { is_visible: true },
+            ..Default::default()
+        })
+        .push_children(&characters);
+}
+
+fn characters_system(
+    q_characters: Query<&Children, (With<CharactersComponent>, Without<MapsComponent>)>,
+    mut q_character: Query<(&mut Transform, &mut CharacterComponent), Without<MapComponent>>,
+    cursor_pos: Res<CursorPosition>,
+    mouse_buttons: Res<Input<MouseButton>>,
+    mut dragging_sprite: ResMut<DraggingSprite>,
+) {
+    let characters = q_characters.single();
+    for &character in characters.iter() {
+        let (mut transform, character_component) = q_character.get_mut(character).unwrap();
+        if mouse_buttons.pressed(MouseButton::Left) {
+            if character_component.is_hovered && !dragging_sprite.0 {
+                dragging_sprite.0 = true;
+                transform.translation.x = cursor_pos.0.x;
+                transform.translation.y = cursor_pos.0.y;
+            }
+        }
     }
 }

@@ -5,11 +5,14 @@ mod camera;
 mod characters;
 mod components;
 mod debug;
+mod draw;
 mod map;
 mod resources;
 
+use camera::CameraPlugin;
 use characters::CharactersPlugin;
 use debug::DebugPlugin;
+use draw::DrawPlugin;
 use map::MapPlugin;
 use resources::GameState;
 
@@ -45,6 +48,8 @@ fn main() {
         .add_plugin(DebugPlugin)
         .add_plugin(MapPlugin)
         .add_plugin(CharactersPlugin)
+        .add_plugin(DrawPlugin)
+        .add_plugin(CameraPlugin)
         .add_startup_system(setup_system)
         .add_system(control_panel_system)
         .run();
