@@ -13,17 +13,17 @@ impl Plugin for DrawPlugin {
         app.insert_resource(CustomMaps::default())
             .insert_resource(CurrentCustomMap::default())
             .add_system_set(
-                SystemSet::on_update(GameState::Interior).with_system(draw_window_plugin),
+                SystemSet::on_update(GameState::Interior).with_system(draw_window_system),
             );
     }
 }
 
-fn draw_window_plugin(
+fn draw_window_system(
     mut egui_ctx: ResMut<EguiContext>,
     mut custom_maps: ResMut<CustomMaps>,
     mut current_map: ResMut<CurrentCustomMap>,
 ) {
-    egui::SidePanel::left("custom map list").show(egui_ctx.ctx_mut(), |ui| {
+    egui::SidePanel::left("custom_map_list").show(egui_ctx.ctx_mut(), |ui| {
         for p in custom_maps.0.iter() {
             if ui.button(&p.name).clicked() {
                 current_map.0 = p.clone();

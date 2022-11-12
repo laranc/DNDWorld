@@ -5,8 +5,11 @@ use bevy::{
 
 use crate::{
     characters::CHARACTER_SCALE,
-    components::{CharacterComponent, CharactersComponent, MapComponent, MapFace, MapsComponent},
-    resources::{CursorPosition, DraggingSprite},
+    components::{
+        CharacterComponent, CharactersComponent, CustomSpriteComponent, MapComponent, MapFace,
+        MapsComponent,
+    },
+    resources::{CursorPosition, CustomSpriteNum, DraggingSprite},
     GameState,
 };
 
@@ -67,7 +70,10 @@ fn cursor_system(
     mut cursor_pos: ResMut<CursorPosition>,
     q_characters: Query<&Children, (With<CharactersComponent>, Without<MapsComponent>)>,
     mut q_character: Query<(&Transform, &mut CharacterComponent), Without<MapComponent>>,
+    mut q_custom_sprites: Query<(&Transform, &Handle<Image>, &mut CustomSpriteComponent)>,
     mut dragging_sprite: ResMut<DraggingSprite>,
+    custom_sprite_num: Res<CustomSpriteNum>,
+    images: Res<Assets<Image>>,
 ) {
     let (camera, camera_transform) = q_camera.single();
     let window = windows.get_primary().unwrap();
@@ -83,8 +89,8 @@ fn cursor_system(
     let characters = q_characters.single();
     for &character in characters.iter() {
         let (transform, mut character_component) = q_character.get_mut(character).unwrap();
-        let half_width = Vec2::splat(CHARACTER_SCALE).x;
-        let half_height = Vec2::splat(CHARACTER_SCALE).y;
+        let half_width = Vec2::splat(CHARACTER_SCALE).x / 2.;
+        let half_height = Vec2::splat(CHARACTER_SCALE).y / 2.;
         if transform.translation.x - half_width < cursor_pos.0.x
             && transform.translation.x + half_width > cursor_pos.0.x
             && transform.translation.y - half_height < cursor_pos.0.y
@@ -94,6 +100,23 @@ fn cursor_system(
             dragging_sprite.0 = false;
         } else {
             character_component.is_hovered = false;
+        }
+    }
+    if custom_sprite_num.0 > 0 {
+        for (transform, image_handle, mut custom_sprite_component) in q_custom_sprites.iter_mut() {
+            let image = images.get(image_handle).unwrap();
+            let half_width = image.size().x / 2.;
+            let half_height = image.size().y / 2.;
+            if transform.translation.x - half_width < cursor_pos.0.x
+                && transform.translation.x + half_width > cursor_pos.0.x
+                && transform.translation.y - half_height < cursor_pos.0.y
+                && transform.translation.y + half_height > cursor_pos.0.y
+            {
+                custom_sprite_component.is_hovered = true;
+                dragging_sprite.0 = false;
+            } else {
+                custom_sprite_component.is_hovered = false;
+            }
         }
     }
 }

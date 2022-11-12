@@ -8,6 +8,7 @@ mod debug;
 mod draw;
 mod map;
 mod resources;
+mod sprite;
 
 use camera::CameraPlugin;
 use characters::CharactersPlugin;
@@ -15,6 +16,7 @@ use debug::DebugPlugin;
 use draw::DrawPlugin;
 use map::MapPlugin;
 use resources::GameState;
+use sprite::SpritePlugin;
 
 pub const RESOLUTION: f32 = 16. / 9.;
 pub const SCREEN_HEIGHT: f32 = 900.;
@@ -49,6 +51,7 @@ fn main() {
         .add_plugin(MapPlugin)
         .add_plugin(CharactersPlugin)
         .add_plugin(DrawPlugin)
+        .add_plugin(SpritePlugin)
         .add_plugin(CameraPlugin)
         .add_startup_system(setup_system)
         .add_system(control_panel_system)
@@ -67,7 +70,7 @@ fn setup_system(mut commands: Commands, mut windows: ResMut<Windows>) {
 }
 
 fn control_panel_system(mut egui_ctx: ResMut<EguiContext>, mut state: ResMut<State<GameState>>) {
-    egui::TopBottomPanel::bottom("Control Panel").show(egui_ctx.ctx_mut(), |ui| {
+    egui::TopBottomPanel::bottom("control_panel").show(egui_ctx.ctx_mut(), |ui| {
         ui.horizontal(|ui| match state.current() {
             GameState::WorldMap => {
                 if ui.button("Town").clicked() {

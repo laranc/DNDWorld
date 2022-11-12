@@ -1,4 +1,4 @@
-use bevy::prelude::Component;
+use bevy::prelude::{Component, Vec3};
 use bevy_inspector_egui::Inspectable;
 
 #[derive(Component, Inspectable, Default)]
@@ -22,3 +22,10 @@ pub struct CharactersComponent;
 
 #[derive(Component)]
 pub struct MapsComponent;
+
+#[derive(Component, Default)]
+pub struct CustomSpriteComponent {
+    pub name: String,
+    pub scale: Vec3,
+    pub is_hovered: bool,
+}

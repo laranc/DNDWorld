@@ -77,3 +77,17 @@ pub struct CursorPosition(pub Vec2);
 
 #[derive(Default)]
 pub struct DraggingSprite(pub bool);
+
+pub struct CustomSprite(pub String, pub String, pub f32);
+
+impl Default for CustomSprite {
+    fn default() -> Self {
+        Self(String::default(), String::default(), 1.)
+    }
+}
+
+#[derive(Default)]
+pub struct CustomSpriteList(pub Vec<String>);
+
+#[derive(Default)]
+pub struct CustomSpriteNum(pub u8);
