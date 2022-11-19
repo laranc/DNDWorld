@@ -122,7 +122,7 @@ pub fn spawn_custom_sprite(
     sprite_scale: f32,
 ) -> () {
     commands
-        .spawn_bundle(SpriteBundle {
+        .spawn(SpriteBundle {
             texture: asset_server.load(&format!("custom/{}", sprite_file)),
             ..Default::default()
         })
@@ -131,7 +131,7 @@ pub fn spawn_custom_sprite(
             name: sprite_name.clone(),
             ..Default::default()
         })
-        .insert_bundle(SpatialBundle {
+        .insert(SpatialBundle {
             visibility: Visibility { is_visible: true },
             transform: Transform {
                 translation: Vec3::new(0., 0., 200.),

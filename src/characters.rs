@@ -28,6 +28,8 @@ fn character_setup_system(
         Vec2::new(11., 15.),
         4,
         1,
+        Some(Vec2::default()),
+        Some(Vec2::default()),
     );
 
     let handle = texture_atlas.add(atlas);
@@ -42,7 +44,7 @@ fn spawn_characters_system(mut commands: Commands, texture_atlas: Res<SpriteShee
         sprite.custom_size = Some(Vec2::splat(CHARACTER_SCALE));
 
         let character = commands
-            .spawn_bundle(SpriteSheetBundle {
+            .spawn(SpriteSheetBundle {
                 sprite,
                 texture_atlas: texture_atlas.0.clone(),
                 transform: Transform {
@@ -61,10 +63,10 @@ fn spawn_characters_system(mut commands: Commands, texture_atlas: Res<SpriteShee
         characters.push(character);
     }
     commands
-        .spawn()
+        .spawn_empty()
         .insert(Name::new("Characters"))
         .insert(CharactersComponent)
-        .insert_bundle(SpatialBundle {
+        .insert(SpatialBundle {
             visibility: Visibility { is_visible: true },
             ..Default::default()
         })

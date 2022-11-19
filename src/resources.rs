@@ -1,15 +1,36 @@
-use bevy::{asset::Handle, prelude::Vec2, sprite::TextureAtlas};
+use bevy::{
+    asset::Handle,
+    prelude::{Resource, Vec2},
+    sprite::TextureAtlas,
+};
 use bevy_egui::egui;
 use bevy_inspector_egui::Inspectable;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+use crate::{RESOLUTION, SCREEN_HEIGHT};
+
+#[derive(Resource)]
+pub struct WinSize {
+    pub w: f32,
+    pub h: f32,
+}
+
+impl Default for WinSize {
+    fn default() -> Self {
+        Self {
+            w: SCREEN_HEIGHT * RESOLUTION,
+            h: SCREEN_HEIGHT,
+        }
+    }
+}
+
+#[derive(Resource, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum GameState {
     WorldMap,
     TownMap,
     Interior,
 }
 
-#[derive(Inspectable, Default)]
+#[derive(Resource, Inspectable, Default)]
 pub struct SpriteSheet(pub Handle<TextureAtlas>);
 
 #[derive(Clone)]
@@ -66,18 +87,19 @@ impl Painting {
     }
 }
 
-#[derive(Default)]
+#[derive(Resource, Default)]
 pub struct CustomMaps(pub Vec<Painting>);
 
-#[derive(Default)]
+#[derive(Resource, Default)]
 pub struct CurrentCustomMap(pub Painting);
 
-#[derive(Default, Inspectable)]
+#[derive(Resource, Default, Inspectable)]
 pub struct CursorPosition(pub Vec2);
 
-#[derive(Default)]
+#[derive(Resource, Default)]
 pub struct DraggingSprite(pub bool);
 
+#[derive(Resource)]
 pub struct CustomSprite(pub String, pub String, pub f32);
 
 impl Default for CustomSprite {
@@ -86,8 +108,8 @@ impl Default for CustomSprite {
     }
 }
 
-#[derive(Default)]
+#[derive(Resource, Default)]
 pub struct CustomSpriteList(pub Vec<String>);
 
-#[derive(Default)]
+#[derive(Resource, Default)]
 pub struct CustomSpriteNum(pub u8);

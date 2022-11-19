@@ -24,14 +24,14 @@ fn map_setup_system(mut commands: Commands, assets: Res<AssetServer>) {
         ..Default::default()
     };
     let map_front = commands
-        .spawn_bundle(map_front_sprite)
+        .spawn(map_front_sprite)
         .insert(Name::new("World Map"))
         .insert(MapComponent {
             face: MapFace::World,
         })
         .id();
     let map_back = commands
-        .spawn_bundle(map_back_sprite)
+        .spawn(map_back_sprite)
         .insert(Name::new("Town Map"))
         .insert(MapComponent {
             face: MapFace::Town,
@@ -42,10 +42,10 @@ fn map_setup_system(mut commands: Commands, assets: Res<AssetServer>) {
         })
         .id();
     commands
-        .spawn()
+        .spawn_empty()
         .insert(Name::new("Maps"))
         .insert(MapsComponent)
-        .insert_bundle(SpatialBundle {
+        .insert(SpatialBundle {
             visibility: Visibility { is_visible: true },
             ..Default::default()
         })

@@ -10,9 +10,9 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = { version = "0.8", features = ["dynamic"] }
-bevy_egui = "0.16.1"
-bevy-inspector-egui = "0.12.1"
+bevy = { version = "0.9", features = ["dynamic"] }
+bevy_egui = "0.17.1"
+bevy-inspector-egui = "0.14.0"
 
 [[bin]]
 name = "dnd_world"
