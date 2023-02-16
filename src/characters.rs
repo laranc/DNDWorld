@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     components::{CharacterComponent, CharactersComponent, MapComponent, MapsComponent},
-    resources::{CursorPosition, DraggingSprite, SpriteSheet},
+    resources::{CursorPosition, DraggingSprite, LoadedFromFile, SpriteSheet},
 };
 pub struct CharactersPlugin;
 
@@ -22,55 +22,64 @@ fn character_setup_system(
     mut commands: Commands,
     assets: Res<AssetServer>,
     mut texture_atlas: ResMut<Assets<TextureAtlas>>,
+    loaded: Res<LoadedFromFile>,
 ) {
-    let atlas = TextureAtlas::from_grid(
-        assets.load("characters/characters.png"),
-        Vec2::new(11., 15.),
-        4,
-        1,
-        Some(Vec2::default()),
-        Some(Vec2::default()),
-    );
+    if !loaded.0 {
+        let atlas = TextureAtlas::from_grid(
+            assets.load("characters/characters.png"),
+            Vec2::new(11., 15.),
+            4,
+            1,
+            Some(Vec2::default()),
+            Some(Vec2::default()),
+        );
 
-    let handle = texture_atlas.add(atlas);
+        let handle = texture_atlas.add(atlas);
 
-    commands.insert_resource(SpriteSheet(handle));
+        commands.insert_resource(SpriteSheet(handle));
+    }
 }
 
-fn spawn_characters_system(mut commands: Commands, texture_atlas: Res<SpriteSheet>) {
-    let mut characters = Vec::new();
-    for i in 0..=CHARACTER_NUM - 1 {
-        let mut sprite = TextureAtlasSprite::new(i as usize);
-        sprite.custom_size = Some(Vec2::splat(CHARACTER_SCALE));
+fn spawn_characters_system(
+    mut commands: Commands,
+    texture_atlas: Res<SpriteSheet>,
+    loaded: Res<LoadedFromFile>,
+) {
+    if !loaded.0 {
+        let mut characters = Vec::new();
+        for i in 0..=CHARACTER_NUM - 1 {
+            let mut sprite = TextureAtlasSprite::new(i as usize);
+            sprite.custom_size = Some(Vec2::splat(CHARACTER_SCALE));
 
-        let character = commands
-            .spawn(SpriteSheetBundle {
-                sprite,
-                texture_atlas: texture_atlas.0.clone(),
-                transform: Transform {
-                    translation: Vec3::new(
-                        i as f32 * CHARACTER_SCALE,
-                        -(i as f32) * CHARACTER_SCALE,
-                        100.,
-                    ),
+            let character = commands
+                .spawn(SpriteSheetBundle {
+                    sprite,
+                    texture_atlas: texture_atlas.0.clone(),
+                    transform: Transform {
+                        translation: Vec3::new(
+                            i as f32 * CHARACTER_SCALE,
+                            -(i as f32) * CHARACTER_SCALE,
+                            100.,
+                        ),
+                        ..Default::default()
+                    },
                     ..Default::default()
-                },
+                })
+                .insert(Name::new(format!("Character {}", i + 1)))
+                .insert(CharacterComponent::default())
+                .id();
+            characters.push(character);
+        }
+        commands
+            .spawn_empty()
+            .insert(Name::new("Characters"))
+            .insert(CharactersComponent)
+            .insert(SpatialBundle {
+                visibility: Visibility { is_visible: true },
                 ..Default::default()
             })
-            .insert(Name::new(format!("Character {}", i + 1)))
-            .insert(CharacterComponent::default())
-            .id();
-        characters.push(character);
+            .push_children(&characters);
     }
-    commands
-        .spawn_empty()
-        .insert(Name::new("Characters"))
-        .insert(CharactersComponent)
-        .insert(SpatialBundle {
-            visibility: Visibility { is_visible: true },
-            ..Default::default()
-        })
-        .push_children(&characters);
 }
 
 fn characters_system(

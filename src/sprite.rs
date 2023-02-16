@@ -2,8 +2,9 @@ use bevy::prelude::*;
 use bevy_egui::{egui, EguiContext};
 
 use crate::{
+    check_file,
     components::CustomSpriteComponent,
-    resources::{CursorPosition, CustomSprite, CustomSpriteList, CustomSpriteNum, DraggingSprite},
+    resources::{CursorPosition, CustomSprite, CustomSpriteList, DraggingSprite, ErrorLabel},
     GameState,
 };
 
@@ -13,7 +14,7 @@ impl Plugin for SpritePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(CustomSprite::default())
             .insert_resource(CustomSpriteList::default())
-            .insert_resource(CustomSpriteNum::default())
+            .insert_resource(ErrorLabel::default())
             .add_system_set(
                 SystemSet::on_update(GameState::TownMap)
                     .with_system(add_custom_sprite_system)
@@ -24,37 +25,50 @@ impl Plugin for SpritePlugin {
                     .with_system(add_custom_sprite_system)
                     .with_system(custom_sprite_list_system),
             )
+            .add_system_set(
+                SystemSet::on_update(GameState::CustomMap)
+                    .with_system(add_custom_sprite_system)
+                    .with_system(custom_sprite_list_system),
+            )
             .add_system(custom_sprite_system);
     }
 }
 
 fn add_custom_sprite_system(
     commands: Commands,
-    asset_server: Res<AssetServer>,
+    assets: Res<AssetServer>,
     mut egui_ctx: ResMut<EguiContext>,
     mut custom_sprite: ResMut<CustomSprite>,
     mut custom_sprite_list: ResMut<CustomSpriteList>,
-    mut custom_sprite_num: ResMut<CustomSpriteNum>,
+    mut error_label: ResMut<ErrorLabel>,
 ) {
     egui::Window::new("Spawn Custom Sprites").show(egui_ctx.ctx_mut(), |ui| {
-        ui.label(
-            "File name e.g. sprite.png (paste file in assets/custom/ folder beforehand. PNGs only)",
-        );
+        ui.label("File name e.g. sprite.png (paste png file in assets/custom/ directory)");
         ui.text_edit_singleline(&mut custom_sprite.0);
         ui.label("Sprite name");
         ui.text_edit_singleline(&mut custom_sprite.1);
-        ui.add(egui::Slider::new(&mut custom_sprite.2, 0.0..=10.).text("Sprite Scale"));
+        ui.add(egui::Slider::new(&mut custom_sprite.2, 0.1..=10.).text("Sprite Scale"));
         if ui.button("Spawn Sprite").clicked() {
-            spawn_custom_sprite(
-                commands,
-                asset_server,
-                &custom_sprite.0,
-                &custom_sprite.1,
-                custom_sprite.2,
-            );
-            custom_sprite_list.0.push(custom_sprite.1.clone());
-            custom_sprite_num.0 += 1;
+            match check_file(&custom_sprite.0) {
+                Some(s) => {
+                    custom_sprite.0 = s;
+                    spawn_custom_sprite(
+                        commands,
+                        assets,
+                        &custom_sprite.0,
+                        &custom_sprite.1,
+                        custom_sprite.2,
+                    );
+                    custom_sprite_list.0.push(custom_sprite.1.clone());
+                    custom_sprite_list.1 = custom_sprite_list.0.len();
+                    error_label.update("".to_owned());
+                }
+                None => {
+                    error_label.update("Failed to find file".to_owned());
+                }
+            }
         }
+        error_label.content(ui);
     });
 }
 
@@ -63,9 +77,8 @@ fn custom_sprite_list_system(
     mut egui_ctx: ResMut<EguiContext>,
     mut custom_sprite_list: ResMut<CustomSpriteList>,
     q_custom_sprites: Query<(Entity, &CustomSpriteComponent)>,
-    mut custom_sprite_num: ResMut<CustomSpriteNum>,
 ) {
-    if custom_sprite_list.0.len() > 0 {
+    if custom_sprite_list.1 > 0 {
         egui::SidePanel::right("custom_sprite_list").show(egui_ctx.ctx_mut(), |ui| {
             ui.horizontal(|ui| {
                 ui.heading("Custom Sprites");
@@ -74,7 +87,7 @@ fn custom_sprite_list_system(
                         commands.entity(e).despawn();
                     }
                     custom_sprite_list.0.clear();
-                    custom_sprite_num.0 = 0;
+                    custom_sprite_list.1 = 0;
                 }
             });
             egui::ScrollArea::vertical().show(ui, |ui| {
@@ -86,7 +99,7 @@ fn custom_sprite_list_system(
                                 if csc.name == custom_sprite_list.0[i] {
                                     commands.entity(e).despawn();
                                     custom_sprite_list.0.remove(i);
-                                    custom_sprite_num.0 -= 1;
+                                    custom_sprite_list.1 = custom_sprite_list.0.len();
                                 }
                             }
                         }
@@ -116,14 +129,14 @@ fn custom_sprite_system(
 
 pub fn spawn_custom_sprite(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    assets: Res<AssetServer>,
     sprite_file: &String,
     sprite_name: &String,
     sprite_scale: f32,
 ) -> () {
     commands
         .spawn(SpriteBundle {
-            texture: asset_server.load(&format!("custom/{}", sprite_file)),
+            texture: assets.load(&format!("custom/{}", sprite_file)),
             ..Default::default()
         })
         .insert(Name::new(sprite_name.clone()))

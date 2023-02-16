@@ -12,7 +12,11 @@ impl Plugin for DebugPlugin {
                 .add_plugin(InspectorPlugin::<SpriteSheet>::new())
                 .register_inspectable::<CharacterComponent>()
                 .register_inspectable::<MapComponent>()
-                .add_plugin(InspectorPlugin::<CursorPosition>::new());
+                .register_inspectable::<CustomSpriteComponent>()
+                .register_inspectable::<CustomMapComponent>()
+                .add_plugin(InspectorPlugin::<CursorPosition>::new())
+                .add_plugin(InspectorPlugin::<CustomMapList>::new())
+                .add_plugin(InspectorPlugin::<CurrentCustomMap>::new());
         }
     }
 }

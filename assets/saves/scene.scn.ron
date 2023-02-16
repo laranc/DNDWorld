@@ -1,0 +1,568 @@
+(
+  entities: {
+    0: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+        )),
+        "bevy_asset::handle::Handle<bevy_render::texture::image::Image>": (
+          id: AssetPathId(((10703614034408567492), (6298619649789039366))),
+        ),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 12659585939118219102,
+          name: "World Map",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 2,
+        )),
+      },
+    ),
+    1: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 0.4,
+            y: 0.4,
+            z: 0.4,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 0.4,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 0.4,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 0.4,
+            ),
+          ),
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+        )),
+        "bevy_asset::handle::Handle<bevy_render::texture::image::Image>": (
+          id: AssetPathId(((16897859216535815774), (6298619649789039366))),
+        ),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: false,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: false,
+          is_visible_in_view: false,
+        ),
+        "bevy_core::name::Name": (
+          hash: 4187407692219624520,
+          name: "Town Map",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 2,
+        )),
+      },
+    ),
+    2: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 1575527840871250575,
+          name: "Maps",
+        ),
+        "bevy_hierarchy::components::children::Children": ([
+          (
+            generation: 0,
+            index: 0,
+          ),
+          (
+            generation: 0,
+            index: 1,
+          ),
+        ]),
+      },
+    ),
+    3: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 999.9,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 999.9,
+          ),
+        )),
+        "bevy_core::name::Name": (
+          hash: 7406442037464536859,
+          name: "Camera",
+        ),
+        "bevy_render::camera::camera::Camera": (
+          viewport: None,
+          priority: 0,
+          is_active: true,
+          hdr: false,
+        ),
+        "bevy_render::camera::camera::CameraRenderGraph": ("core_2d"),
+        "bevy_render::camera::projection::OrthographicProjection": (
+          left: -800.0,
+          right: 800.0,
+          bottom: -450.0,
+          top: 450.0,
+          near: 0.0,
+          far: 1000.0,
+          window_origin: Center,
+          scaling_mode: WindowSize,
+          scale: 1.0,
+        ),
+        "bevy_render::view::visibility::VisibleEntities": (),
+        "bevy_render::primitives::Frustum": (),
+        "bevy_core_pipeline::core_2d::camera_2d::Camera2d": (
+          clear_color: Default,
+        ),
+        "bevy_core_pipeline::tonemapping::Tonemapping": Disabled,
+        "bevy_pbr::light::ClusterConfig": FixedZ(
+          total: 4096,
+          z_slices: 24,
+          z_config: (
+            first_slice_depth: 5.0,
+            far_z_mode: MaxLightRange,
+          ),
+          dynamic_resizing: true,
+        ),
+      },
+    ),
+    4: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: -317.0,
+            y: 196.00003,
+            z: 100.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: -317.0,
+            y: 196.00003,
+            z: 100.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 8891967648292737625,
+          name: "Character 1",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 8,
+        )),
+        "bevy_asset::handle::Handle<bevy_sprite::texture_atlas::TextureAtlas>": (
+          id: Id("7233c597-ccfa-411f-bd59-9af349432ada", 5843319299663184650),
+        ),
+      },
+    ),
+    5: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 197.00003,
+            y: 161.00003,
+            z: 100.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 197.00003,
+            y: 161.00003,
+            z: 100.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 6378430936728234809,
+          name: "Character 2",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 8,
+        )),
+        "bevy_asset::handle::Handle<bevy_sprite::texture_atlas::TextureAtlas>": (
+          id: Id("7233c597-ccfa-411f-bd59-9af349432ada", 5843319299663184650),
+        ),
+      },
+    ),
+    6: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: -281.0,
+            y: -251.00002,
+            z: 100.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: -281.0,
+            y: -251.00002,
+            z: 100.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 7912845824994285519,
+          name: "Character 3",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 8,
+        )),
+        "bevy_asset::handle::Handle<bevy_sprite::texture_atlas::TextureAtlas>": (
+          id: Id("7233c597-ccfa-411f-bd59-9af349432ada", 5843319299663184650),
+        ),
+      },
+    ),
+    7: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 300.0,
+            y: -300.0,
+            z: 100.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 300.0,
+            y: -300.0,
+            z: 100.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 580801822202567104,
+          name: "Character 4",
+        ),
+        "bevy_hierarchy::components::parent::Parent": ((
+          generation: 0,
+          index: 8,
+        )),
+        "bevy_asset::handle::Handle<bevy_sprite::texture_atlas::TextureAtlas>": (
+          id: Id("7233c597-ccfa-411f-bd59-9af349432ada", 5843319299663184650),
+        ),
+      },
+    ),
+    8: (
+      components: {
+        "bevy_transform::components::transform::Transform": (
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+          rotation: (0.0, 0.0, 0.0, 1.0),
+          scale: (
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+          ),
+        ),
+        "bevy_transform::components::global_transform::GlobalTransform": ((
+          matrix3: (
+            x_axis: (
+              x: 1.0,
+              y: 0.0,
+              z: 0.0,
+            ),
+            y_axis: (
+              x: 0.0,
+              y: 1.0,
+              z: 0.0,
+            ),
+            z_axis: (
+              x: 0.0,
+              y: 0.0,
+              z: 1.0,
+            ),
+          ),
+          translation: (
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+          ),
+        )),
+        "bevy_render::view::visibility::Visibility": (
+          is_visible: true,
+        ),
+        "bevy_render::view::visibility::ComputedVisibility": (
+          is_visible_in_hierarchy: true,
+          is_visible_in_view: true,
+        ),
+        "bevy_core::name::Name": (
+          hash: 18397016519911279352,
+          name: "Characters",
+        ),
+        "bevy_hierarchy::components::children::Children": ([
+          (
+            generation: 0,
+            index: 4,
+          ),
+          (
+            generation: 0,
+            index: 5,
+          ),
+          (
+            generation: 0,
+            index: 6,
+          ),
+          (
+            generation: 0,
+            index: 7,
+          ),
+        ]),
+      },
+    ),
+  },
+)

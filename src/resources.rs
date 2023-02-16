@@ -1,6 +1,7 @@
 use bevy::{
     asset::Handle,
-    prelude::{Resource, Vec2},
+    prelude::{Component, Resource, Vec2},
+    reflect::{FromReflect, Reflect},
     sprite::TextureAtlas,
 };
 use bevy_egui::egui;
@@ -28,7 +29,11 @@ pub enum GameState {
     WorldMap,
     TownMap,
     Interior,
+    CustomMap,
 }
+
+#[derive(Resource, Default)]
+pub struct LoadedFromFile(pub bool);
 
 #[derive(Resource, Inspectable, Default)]
 pub struct SpriteSheet(pub Handle<TextureAtlas>);
@@ -62,7 +67,7 @@ impl Painting {
         .response
     }
 
-    pub fn content(&mut self, ui: &mut egui::Ui) {
+    pub fn content(&mut self, ui: &mut egui::Ui) -> () {
         let (response, painter) =
             ui.allocate_painter(ui.available_size_before_wrap(), egui::Sense::drag());
         let rect = response.rect;
@@ -88,10 +93,10 @@ impl Painting {
 }
 
 #[derive(Resource, Default)]
-pub struct CustomMaps(pub Vec<Painting>);
+pub struct CustomPaintings(pub Vec<Painting>);
 
 #[derive(Resource, Default)]
-pub struct CurrentCustomMap(pub Painting);
+pub struct CurrentCustomPainting(pub Painting);
 
 #[derive(Resource, Default, Inspectable)]
 pub struct CursorPosition(pub Vec2);
@@ -99,7 +104,7 @@ pub struct CursorPosition(pub Vec2);
 #[derive(Resource, Default)]
 pub struct DraggingSprite(pub bool);
 
-#[derive(Resource)]
+#[derive(Resource, Reflect, Debug)]
 pub struct CustomSprite(pub String, pub String, pub f32);
 
 impl Default for CustomSprite {
@@ -108,8 +113,34 @@ impl Default for CustomSprite {
     }
 }
 
-#[derive(Resource, Default)]
-pub struct CustomSpriteList(pub Vec<String>);
+#[derive(Resource, Default, Reflect)]
+pub struct CustomSpriteList(pub Vec<String>, pub usize);
+
+#[derive(Resource, Component, Inspectable, PartialEq, Clone, Reflect, FromReflect, Debug)]
+pub struct CustomMap(pub String, pub String, pub f32, pub bool);
+
+impl Default for CustomMap {
+    fn default() -> Self {
+        Self(String::default(), String::default(), 1., false)
+    }
+}
+
+#[derive(Resource, Inspectable, Default, Reflect)]
+pub struct CustomMapList(pub Vec<CustomMap>, pub usize);
 
 #[derive(Resource, Default)]
-pub struct CustomSpriteNum(pub u8);
+pub struct ErrorLabel {
+    message: String,
+}
+
+impl ErrorLabel {
+    pub fn content(&self, ui: &mut egui::Ui) -> () {
+        ui.label(&self.message);
+    }
+    pub fn update(&mut self, new_message: String) -> () {
+        self.message = new_message;
+    }
+}
+
+#[derive(Resource, Inspectable, Default, Reflect)]
+pub struct CurrentCustomMap(pub Option<CustomMap>);
